@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "./App.css";
 import { request } from "./utils";
+import PersonDialog from "./PersonDialog";
 
 function usePeople() {
   const [status, setStatus] = useState("loading");
@@ -37,26 +38,40 @@ function App() {
     fetchMore,
     status
   } = usePeople();
+  const [selectedPerson, setSelectedPerson] = useState();
+  function selectPerson(person) {
+    setSelectedPerson(person);
+  }
+  function handleDialogClose() {
+    setSelectedPerson(undefined);
+  }
 
   return (
     <main className="App">
+      <h1>STAR WARS</h1>
       <ul aria-label="Characters" className="characters">
         {results.map(person => (
-          <li key={person.id} className="characters-item">
-            {person.name}
+          <li key={person.id}>
+            <button
+              className="characters-item"
+              onClick={() => selectPerson(person)}
+            >
+              {person.name}
+            </button>
           </li>
         ))}
       </ul>
-      {status === "loading" && <div>Loading...</div>}
-      {status !== "loading" && !!next && (
+      {/* {status === "loading" && <div>Loading...</div>} */}
+      {!!next && (
         <button
           className="button"
           onClick={fetchMore}
           disabled={status === "loading"}
         >
-          SHOW MORE
+          {status === "loading" ? "LOADING..." : "LOAD MORE"}
         </button>
       )}
+      <PersonDialog data={selectedPerson} onClose={handleDialogClose} />
     </main>
   );
 }
