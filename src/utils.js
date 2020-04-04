@@ -1,5 +1,5 @@
 export function request(endpoint) {
-  return window.fetch(endpoint).then(async response => {
+  return window.fetch(endpoint).then(async (response) => {
     const data = await response.json();
 
     if (response.ok) {

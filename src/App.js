@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import VisibilitySensor from "react-visibility-sensor";
 import "./App.css";
-import CharacterDialog from "./CharacterDialog";
+import { CharacterDialog } from "./components";
 import { request } from "./utils";
 
 function useCharacters() {

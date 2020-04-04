@@ -5,12 +5,12 @@ import { FiX } from "react-icons/fi";
 import { animated, useTransition } from "react-spring";
 import "./CharacterDialog.css";
 import DataList from "./DataList";
-import { request } from "./utils";
+import { request } from "../utils";
 
 const AnimatedDialogOverlay = animated(DialogOverlay);
 const AnimatedDialogContent = animated(DialogContent);
 
-export default function PersonDialog({ data, onClose }) {
+export function CharacterDialog({ data, onClose }) {
   const [starships, setStarships] = useState([]);
   const transitions = useTransition(true, null, {
     from: { opacity: 0, y: -10 },
