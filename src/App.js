@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
+import VisibilitySensor from "react-visibility-sensor";
 import "./App.css";
-import { request } from "./utils";
 import PersonDialog from "./PersonDialog";
+import { request } from "./utils";
 
 function usePeople() {
   const [status, setStatus] = useState("loading");
@@ -45,6 +46,11 @@ function App() {
   function handleDialogClose() {
     setSelectedPerson(undefined);
   }
+  function handleVisibilityChange(isVisible) {
+    if (isVisible && status === "resolved") {
+      fetchMore();
+    }
+  }
 
   return (
     <main className="App">
@@ -63,13 +69,19 @@ function App() {
       </ul>
       {status === "loading" && !results.length && <div>Loading...</div>}
       {!!next && (
-        <button
-          className="button"
-          onClick={fetchMore}
-          disabled={status === "loading"}
+        <VisibilitySensor
+          key={status}
+          partialVisibility
+          onChange={handleVisibilityChange}
         >
-          {status === "loading" ? "LOADING..." : "LOAD MORE"}
-        </button>
+          <button
+            className="button"
+            onClick={fetchMore}
+            disabled={status === "loading"}
+          >
+            {status === "loading" ? "LOADING..." : "LOAD MORE"}
+          </button>
+        </VisibilitySensor>
       )}
       {selectedPerson && (
         <PersonDialog data={selectedPerson} onClose={handleDialogClose} />
