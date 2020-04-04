@@ -1,9 +1,13 @@
-.dialog-header {
+.character-dialog {
+  background: #25262c;
+}
+
+.character-dialog__header {
   display: flex;
   justify-content: space-between;
 }
 
-.close-button {
+.character-dialog__close-button {
   align-items: center;
   align-self: flex-start;
   background: transparent;

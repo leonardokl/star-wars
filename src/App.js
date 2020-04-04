@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import VisibilitySensor from "react-visibility-sensor";
 import "./App.css";
-import PersonDialog from "./PersonDialog";
+import CharacterDialog from "./CharacterDialog";
 import { request } from "./utils";
 
-function usePeople() {
+function useCharacters() {
   const [status, setStatus] = useState("loading");
   const [response, setResponse] = useState({ results: [] });
   async function load() {
@@ -21,7 +21,6 @@ function usePeople() {
       });
       setStatus("resolved");
     } catch (ex) {
-      console.error(ex);
       setStatus("error");
     }
   }
@@ -33,18 +32,18 @@ function usePeople() {
   return { status, response, fetchMore: load };
 }
 
-function App() {
+export default function App() {
   const {
     response: { results, next },
     fetchMore,
     status,
-  } = usePeople();
-  const [selectedPerson, setSelectedPerson] = useState();
-  function selectPerson(person) {
-    setSelectedPerson(person);
+  } = useCharacters();
+  const [selectedCharacter, setSelectedCharacter] = useState();
+  function selectCharacter(character) {
+    setSelectedCharacter(character);
   }
   function handleDialogClose() {
-    setSelectedPerson(undefined);
+    setSelectedCharacter(undefined);
   }
   function handleVisibilityChange(isVisible) {
     if (isVisible && status === "resolved") {
@@ -53,22 +52,21 @@ function App() {
   }
 
   return (
-    <main className="App">
-      <h1>STAR WARS</h1>
+    <main className="app">
+      <h1>STAR WARS CHARACTERS</h1>
       <ul aria-label="Characters" className="characters">
-        {results.map((person) => (
-          <li key={person.name}>
+        {results.map((character) => (
+          <li key={character.name}>
             <button
-              className="characters-item"
-              onClick={() => selectPerson(person)}
+              className="characters__item"
+              onClick={() => selectCharacter(character)}
             >
-              {person.name}
+              {character.name}
             </button>
           </li>
         ))}
       </ul>
-      {status === "loading" && !results.length && <div>Loading...</div>}
-      {!!next && (
+      {(!!next || status === "loading") && (
         <VisibilitySensor
           key={status}
           partialVisibility
@@ -83,11 +81,10 @@ function App() {
           </button>
         </VisibilitySensor>
       )}
-      {selectedPerson && (
-        <PersonDialog data={selectedPerson} onClose={handleDialogClose} />
+      {status === "error" && <div role="alert">An error ocurred</div>}
+      {selectedCharacter && (
+        <CharacterDialog data={selectedCharacter} onClose={handleDialogClose} />
       )}
     </main>
   );
 }
-
-export default App;

@@ -5,11 +5,11 @@ function DataItem({ label, value }) {
   const texts = Array.isArray(value) ? value : [value];
 
   return (
-    <div className="data-item">
-      <div className="data-label">{label}</div>
+    <div className="data-list__item">
+      <div className="data-list__item-label">{label}</div>
       <div>
         {texts.map((text) => (
-          <div key={text} className="data-text">
+          <div key={text} className="data-list__item-text">
             {text}
           </div>
         ))}
