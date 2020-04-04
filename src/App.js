@@ -6,18 +6,16 @@ import { request } from "./utils";
 
 function useCharacters() {
   const [status, setStatus] = useState("loading");
-  const [response, setResponse] = useState({ results: [] });
+  const [{ results, next }, setResponse] = useState({ results: [] });
   async function load() {
     setStatus("loading");
 
     try {
-      const data = await request(
-        response.next || "https://swapi.co/api/people/"
-      );
+      const data = await request(next || "https://swapi.co/api/people/");
 
       setResponse({
         ...data,
-        results: response.results.concat(data.results),
+        results: results.concat(data.results),
       });
       setStatus("resolved");
     } catch (ex) {
@@ -27,17 +25,18 @@ function useCharacters() {
 
   useEffect(() => {
     load();
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  return { status, response, fetchMore: load };
+  return {
+    status,
+    results,
+    next,
+    fetchMore: load,
+  };
 }
 
 export default function App() {
-  const {
-    response: { results, next },
-    fetchMore,
-    status,
-  } = useCharacters();
+  const { next, results, fetchMore, status } = useCharacters();
   const [selectedCharacter, setSelectedCharacter] = useState();
   function selectCharacter(character) {
     setSelectedCharacter(character);
