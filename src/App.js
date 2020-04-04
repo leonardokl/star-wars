@@ -16,7 +16,7 @@ function usePeople() {
 
       setResponse({
         ...data,
-        results: response.results.concat(data.results)
+        results: response.results.concat(data.results),
       });
       setStatus("resolved");
     } catch (ex) {
@@ -36,7 +36,7 @@ function App() {
   const {
     response: { results, next },
     fetchMore,
-    status
+    status,
   } = usePeople();
   const [selectedPerson, setSelectedPerson] = useState();
   function selectPerson(person) {
@@ -50,8 +50,8 @@ function App() {
     <main className="App">
       <h1>STAR WARS</h1>
       <ul aria-label="Characters" className="characters">
-        {results.map(person => (
-          <li key={person.id}>
+        {results.map((person) => (
+          <li key={person.name}>
             <button
               className="characters-item"
               onClick={() => selectPerson(person)}
@@ -61,7 +61,7 @@ function App() {
           </li>
         ))}
       </ul>
-      {/* {status === "loading" && <div>Loading...</div>} */}
+      {status === "loading" && !results.length && <div>Loading...</div>}
       {!!next && (
         <button
           className="button"
@@ -71,7 +71,9 @@ function App() {
           {status === "loading" ? "LOADING..." : "LOAD MORE"}
         </button>
       )}
-      <PersonDialog data={selectedPerson} onClose={handleDialogClose} />
+      {selectedPerson && (
+        <PersonDialog data={selectedPerson} onClose={handleDialogClose} />
+      )}
     </main>
   );
 }

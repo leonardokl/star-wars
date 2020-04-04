@@ -1,0 +1,19 @@
+.data-item {
+  display: flex;
+  justify-content: space-between;
+  padding-bottom: 10px;
+  padding-top: 10px;
+  text-transform: uppercase;
+}
+
+.data-item:not(:last-child) {
+  border-bottom: 1px solid #343438;
+}
+
+.data-item .data-label {
+  color: #8d8d8e;
+}
+
+.data-item .data-text {
+  text-align: right;
+}
