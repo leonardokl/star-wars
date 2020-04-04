@@ -11,9 +11,10 @@
 }
 
 .data-list__item-label {
-  color: #8d8d8e;
+  color: #8d8d8d;
 }
 
 .data-list__item-text {
+  color: #d1d1d1;
   text-align: right;
 }

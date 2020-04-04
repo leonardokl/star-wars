@@ -52,7 +52,9 @@ export default function App() {
 
   return (
     <main className="app">
-      <h1>STAR WARS CHARACTERS</h1>
+      <h1>
+        STAR WARS <span>CHARACTERS</span>
+      </h1>
       <ul aria-label="Characters" className="characters">
         {results.map((character) => (
           <li key={character.name}>
